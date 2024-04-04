@@ -58,7 +58,7 @@ def grab(username):
         file_contents = file.read()
 
     # Print the contents of the file
-    print(file_contents)
+    # print(file_contents)
 
     # Check if the file exists before attempting to delete it
     if os.path.exists(file_path):
