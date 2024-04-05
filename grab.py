@@ -3,7 +3,6 @@ import os
 import time
 import shutil
 
-
 # Function to run Sherlock and capture its output
 def run_sherlock(username, sherlock_path):
     start_time = time.time()  # Record the start time
@@ -30,24 +29,11 @@ def run_sherlock(username, sherlock_path):
         elapsed_time = end_time - start_time  # Calculate elapsed time
         print(f"Elapsed time: {elapsed_time:.2f} seconds")
 
-
 # Function to move Sherlock output files to a specific folder
-def move_output_files(username, output_folder):
-    file_path = username + ".txt"
-    destination_folder = output_folder
-    # Copy the file to the destination folder
-
-    shutil.copy(file_path, destination_folder)
-
-    # Remove the original file
-    os.remove(file_path)
-
-
-
 def grab(username):
-    sherlock_path = '/Users/lucnguyen/Documents/VSCode/378Project/python/sherlock'
+    
+    sherlock_path = './sherlock'
     run_sherlock(username, sherlock_path)
-    output_folder = '/sherlock_outputs'
 
     file_path = username + ".txt"
 
@@ -57,9 +43,6 @@ def grab(username):
         # Read the entire contents of the file
         file_contents = file.read()
 
-    # Print the contents of the file
-    # print(file_contents)
-
     # Check if the file exists before attempting to delete it
     if os.path.exists(file_path):
         os.remove(file_path)
@@ -68,10 +51,3 @@ def grab(username):
         print(f"File '{file_path}' does not exist")
     
     return file_contents
-
-# Main function
-def main():
-    grab()
-
-if __name__ == "__main__":
-    main()

@@ -50,8 +50,6 @@ def extract_visible_text(url):
         return None
 
 
-
-
 def main():
     username = input("Enter the username to search: ")
     urls = grab(username)
@@ -60,7 +58,7 @@ def main():
     # List of Sherlock URLs
     sherlock_urls_list = urls.strip().split('\n')
     sherlock_urls_list = sherlock_urls_list[:-1]
-    sherlock_urls_list = sherlock_urls_list[16:20] 
+    # sherlock_urls_list = sherlock_urls_list[16:20] 
 
     # Extract visible text from each URL
     counter = 0
@@ -72,10 +70,16 @@ def main():
         visible_text = extract_visible_text(url)
         if visible_text:
             
+            # with open(username + '_words.txt', 'a') as file:
+            #     file.write(url + ": ")
+            #     file.write(', '.join(visible_text))
+            #     file.write("\n")
+            
             with open(username + '_words.txt', 'a') as file:
-                file.write(url + ": ")
-                file.write(', '.join(visible_text))
-                file.write("\n")
+                for word in visible_text:
+                    file.write(word)
+                    file.write("\n")
+
         # print()
 
 
