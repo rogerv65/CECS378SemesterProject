@@ -63,6 +63,13 @@ def main():
     # Extract visible text from each URL
     counter = 0
     total_len = len(sherlock_urls_list)
+
+    if os.path.exists(username + '_words.txt'):
+        os.remove(username + '_words.txt')
+        print(f"File '{username + '_words.txt'}' deleted successfully")
+    else:
+        print(f"File '{username + '_words.txt'}' does not exist")
+    
     for url in sherlock_urls_list:
         # print(f"Fetching content from URL: {url}")
         counter = counter + 1
