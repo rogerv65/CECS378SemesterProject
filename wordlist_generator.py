@@ -26,7 +26,7 @@ def create_wrd_map(filepath):
 
     return word_freq
 
-# pass wordmap and a filepath to create permutations and write to file
+# pass in wordmap and a filepath to create permutations and write to file
 #  writes in append mode
 def generate_passwords(wmap, filepath):
     # special_char = set("!","@") # can implement later
