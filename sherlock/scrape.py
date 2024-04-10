@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-from sherlock.sherlock.sherlock.grab import *
+from grab import *
 
 
 # Function to extract visible text from a webpage
@@ -50,8 +50,8 @@ def extract_visible_text(url):
         return None
 
 
-def main():
-    username = input("Enter the username to search: ")
+def main(username="Embarrassed-Hawk8464"):
+    # username = input("Enter the username to search: ")
     urls = grab(username)
     # print(urls)
 
@@ -64,11 +64,9 @@ def main():
     counter = 0
     total_len = len(sherlock_urls_list)
 
-    if os.path.exists(username + '_words.txt'):
-        os.remove(username + '_words.txt')
-        print(f"File '{username + '_words.txt'}' deleted successfully")
-    else:
-        print(f"File '{username + '_words.txt'}' does not exist")
+    with open("./"+username + '_words.txt', "w") as file:
+        # remove contents if file already exists
+        file.truncate(0)
     
     for url in sherlock_urls_list:
         # print(f"Fetching content from URL: {url}")
@@ -82,12 +80,12 @@ def main():
             #     file.write(', '.join(visible_text))
             #     file.write("\n")
             
-            with open(username + '_words.txt', 'a') as file:
+            with open("./"+username + '_words.txt', 'a') as file:
                 for word in visible_text:
                     file.write(word)
                     file.write("\n")
 
-        # print()
+    return "./"+username+'_words.txt' # return filepath for words
 
 
 

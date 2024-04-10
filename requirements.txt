@@ -1,5 +1,7 @@
+beautifulsoup4>=4.12.2
 certifi>=2019.6.16
 colorama>=0.4.1
+google_images_search>=1.4.6
 PySocks>=1.7.0
 requests>=2.22.0
 requests-futures>=1.0.0

@@ -2,6 +2,7 @@
 # that have been accumulated from social media webpages 
 # preferably created by the target
 import sys
+import os
 
 def sorted_by_values(d): # return a sorted dictionary by values descending
     return {k: v for k, v in sorted(d.items(), key=lambda item: item[1], reverse=True)}
@@ -38,14 +39,17 @@ def generate_passwords(wmap, filepath):
                 upper = wrd[0].upper() + wrd[1:]
                 file.write(f"{upper}{i}\n")
 
-def main():
-    if len(sys.argv) != 2: # arg variables must be correct
-        print("Usage: python wordlist_generator.py <path to .txt file>")
-        sys.exit(1)
+def main(txt_file_path, output_path="./"):
+    # if len(sys.argv) != 2: # arg variables must be correct
+    #     print("Usage: python wordlist_generator.py <path to .txt file>")
+    #     sys.exit(1)
 
     txt_file_path = sys.argv[1]
     words = create_wrd_map(txt_file_path) # technically could create a set but map to keep track of wordcount
     words = sorted_by_values(words)
+
+    target = os.path.basename(txt_file_path)
+    target = target[:len(target)-len("_words.txt")]
 
     ### see word count of top 50 words
     # for i, pack in enumerate(words.items()):
@@ -54,7 +58,8 @@ def main():
     #     if i >= 50:
     #         break
     
-    generate_passwords(words, 'target_wordlist.txt')
+    generate_passwords(words, output_path+f'{target}_wordlist.txt')
+    os.remove(txt_file_path)
     
 if __name__ == "__main__":
     main()

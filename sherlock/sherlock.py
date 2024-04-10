@@ -30,7 +30,6 @@ from argparse import ArgumentTypeError
 
 ### importing scripts created by our team
 import scrape
-import grab
 import wordlist_generator
 import fullname_lookup
 import image_search
@@ -886,8 +885,18 @@ def main():
             DataFrame.to_excel(f"{username}.xlsx", sheet_name="sheet1", index=False)
 
         if args.wordlist:
-            # scrape()
-            print("")
+            if args.output:
+                result_file = args.output
+            elif args.folderoutput:
+                # The usernames results should be stored in a targeted folder.
+                # If the folder doesn't exist, create it first
+                os.makedirs(args.folderoutput, exist_ok=True)
+                result_file = os.path.join(args.folderoutput, f"{username}.txt")
+            else:
+                result_file = f"{username}.txt"
+
+            wrds_filepath = scrape.main(username)
+            wordlist_generator.main(wrds_filepath, result_file)
         print()
     query_notify.finish()
 

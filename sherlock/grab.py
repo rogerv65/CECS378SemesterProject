@@ -1,7 +1,6 @@
 import subprocess
 import os
 import time
-import shutil
 
 # Function to run Sherlock and capture its output
 def run_sherlock(username, sherlock_path):
@@ -10,7 +9,7 @@ def run_sherlock(username, sherlock_path):
     try:
         # Run Sherlock as a subprocess and capture its output
 
-        cmd = ['python', os.path.join(sherlock_path, 'sherlock'), username, '--timeout', '1']
+        cmd = ['python', os.path.join(sherlock_path, 'sherlock'), username, '--timeout', '5']
 
         result = ""
 
@@ -18,6 +17,7 @@ def run_sherlock(username, sherlock_path):
             # Run Sherlock as a subprocess with output suppression
             # result = subprocess.run(cmd, stdout=null_device, stderr=null_device)
             result = subprocess.run(cmd)
+            print(result)
 
         return result.stdout
 
@@ -31,9 +31,8 @@ def run_sherlock(username, sherlock_path):
         print(f"Elapsed time: {elapsed_time:.2f} seconds")
 
 # Function to move Sherlock output files to a specific folder
-def grab(username):
+def grab(username, sherlock_path = './'):
     
-    sherlock_path = './sherlock/sherlock'
     run_sherlock(username, sherlock_path)
 
     file_path = username + ".txt"
