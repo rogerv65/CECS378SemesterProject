@@ -653,12 +653,12 @@ def main():
         "--wordlist",
         "-w",
         action="store_true",
-        default=False,
+        default=True,
         help="Scrape words from found websites and create a wordlist from them.",
     )
 
     args = parser.parse_args()
-    print(args)
+    # print(args)
 
     # If the user presses CTRL-C, exit gracefully without throwing errors
     signal.signal(signal.SIGINT, handler)
@@ -885,18 +885,18 @@ def main():
             DataFrame.to_excel(f"{username}.xlsx", sheet_name="sheet1", index=False)
 
         if args.wordlist:
+            print("Creating wordlist(s)...")
             if args.output:
-                result_file = args.output
+                result_file = args.output + "_wordlist.txt"
             elif args.folderoutput:
                 # The usernames results should be stored in a targeted folder.
                 # If the folder doesn't exist, create it first
                 os.makedirs(args.folderoutput, exist_ok=True)
-                result_file = os.path.join(args.folderoutput, f"{username}.txt")
+                result_file = os.path.join(args.folderoutput, f"{username}_wordlist.txt")
             else:
-                result_file = f"{username}.txt"
+                result_file = f"{username}_wordlist.txt"
 
-            wrds_filepath = scrape.main(username)
-            wordlist_generator.main(wrds_filepath, result_file)
+            wordlist_generator.main(username, result_file)
         print()
     query_notify.finish()
 

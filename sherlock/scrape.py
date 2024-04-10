@@ -2,9 +2,6 @@ import requests
 from bs4 import BeautifulSoup
 import re
 
-from grab import *
-
-
 # Function to extract visible text from a webpage
 def extract_visible_text(url):
     try:
@@ -52,8 +49,13 @@ def extract_visible_text(url):
 
 def main(username="Embarrassed-Hawk8464"):
     # username = input("Enter the username to search: ")
-    urls = grab(username)
-    # print(urls)
+    urls = ""
+    file_path = username + ".txt"
+
+    # Open the text file in read mode
+    with open((file_path), 'r') as file:
+        # Read the entire contents of the file
+        urls = file.read()
 
     # List of Sherlock URLs
     sherlock_urls_list = urls.strip().split('\n')
@@ -64,7 +66,7 @@ def main(username="Embarrassed-Hawk8464"):
     counter = 0
     total_len = len(sherlock_urls_list)
 
-    with open("./"+username + '_words.txt', "w") as file:
+    with open(username + '_words.txt', "w") as file:
         # remove contents if file already exists
         file.truncate(0)
     
@@ -73,21 +75,18 @@ def main(username="Embarrassed-Hawk8464"):
         counter = counter + 1
         print(f"{counter}/{total_len}", end=" ")
         visible_text = extract_visible_text(url)
-        if visible_text:
-            
-            # with open(username + '_words.txt', 'a') as file:
-            #     file.write(url + ": ")
-            #     file.write(', '.join(visible_text))
-            #     file.write("\n")
-            
-            with open("./"+username + '_words.txt', 'a') as file:
+
+        if visible_text:            
+            with open(username + '_words.txt', 'a') as file:
                 for word in visible_text:
                     file.write(word)
                     file.write("\n")
 
-    return "./"+username+'_words.txt' # return filepath for words
+    return username+'_words.txt' # return filepath for words
 
 
 
 if __name__ == "__main__":
+    from grab import *
+    grab("test")
     main()

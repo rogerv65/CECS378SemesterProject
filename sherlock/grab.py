@@ -17,7 +17,7 @@ def run_sherlock(username, sherlock_path):
             # Run Sherlock as a subprocess with output suppression
             # result = subprocess.run(cmd, stdout=null_device, stderr=null_device)
             result = subprocess.run(cmd)
-            print(result)
+            # print(result)
 
         return result.stdout
 
@@ -31,13 +31,13 @@ def run_sherlock(username, sherlock_path):
         print(f"Elapsed time: {elapsed_time:.2f} seconds")
 
 # Function to move Sherlock output files to a specific folder
-def grab(username, sherlock_path = './'):
+def grab(username, sherlock_path = ''):
     
     run_sherlock(username, sherlock_path)
 
     file_path = username + ".txt"
 
-    file_contents = " "
+    file_contents = ""
     # Open the text file in read mode
     with open((file_path), 'r') as file:
         # Read the entire contents of the file
