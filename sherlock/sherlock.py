@@ -28,6 +28,13 @@ from sites import SitesInformation
 from colorama import init
 from argparse import ArgumentTypeError
 
+### importing scripts created by our team
+import scrape
+import grab
+import wordlist_generator
+import fullname_lookup
+import image_search
+###
 module_name = "Sherlock: Find Usernames Across Social Networks"
 __version__ = "0.14.3"
 
@@ -643,7 +650,16 @@ def main():
         help="Include checking of NSFW sites from default list.",
     )
 
+    parser.add_argument(
+        "--wordlist",
+        "-w",
+        action="store_true",
+        default=False,
+        help="Scrape words from found websites and create a wordlist from them.",
+    )
+
     args = parser.parse_args()
+    print(args)
 
     # If the user presses CTRL-C, exit gracefully without throwing errors
     signal.signal(signal.SIGINT, handler)
@@ -869,6 +885,9 @@ def main():
             )
             DataFrame.to_excel(f"{username}.xlsx", sheet_name="sheet1", index=False)
 
+        if args.wordlist:
+            # scrape()
+            print("")
         print()
     query_notify.finish()
 
