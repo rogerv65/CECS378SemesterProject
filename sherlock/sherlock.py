@@ -27,6 +27,7 @@ from notify import QueryNotifyPrint
 from sites import SitesInformation
 from colorama import init
 from argparse import ArgumentTypeError
+from scrape import *
 
 module_name = "Sherlock: Find Usernames Across Social Networks"
 __version__ = "0.14.3"
@@ -627,7 +628,6 @@ def main():
         default=False,
         help="Browse to all results on default browser.",
     )
-
     parser.add_argument(
         "--local",
         "-l",
@@ -635,12 +635,18 @@ def main():
         default=False,
         help="Force the use of the local data.json file.",
     )
-
     parser.add_argument(
         "--nsfw",
         action="store_true",
         default=False,
         help="Include checking of NSFW sites from default list.",
+    )
+    parser.add_argument(
+        "--words",
+        action="store_true",
+        dest="words",
+        default=False,
+        help="Generate wordlist from sites.",
     )
 
     args = parser.parse_args()
@@ -681,6 +687,10 @@ def main():
         print(
             "Warning: some websites might refuse connecting over Tor, so note that using this option might increase connection errors."
         )
+
+    if args.words:
+        print("Wordlist will be generated...")
+        args.timeout = 1
 
     if args.no_color:
         # Disable color output.
@@ -755,6 +765,7 @@ def main():
                 all_usernames.append(name)
         else:
             all_usernames.append(username)
+    
     for username in all_usernames:
         results = sherlock(
             username,
@@ -784,6 +795,17 @@ def main():
                     exists_counter += 1
                     file.write(dictionary["url_user"] + "\n")
             file.write(f"Total Websites Username Detected On : {exists_counter}\n")
+
+        if args.words:
+            urls_list = []
+            for website_name in results:
+                dictionary = results[website_name]
+                if dictionary.get("status").status == QueryStatus.CLAIMED:
+                    urls_list.append(dictionary["url_user"])
+            
+            # print(urls_list)
+            scrape(username, urls_list)
+
 
         if args.csv:
             result_file = f"{username}.csv"
